@@ -1,0 +1,4 @@
+deepface
+customtkinter
+torch
+torchvision
