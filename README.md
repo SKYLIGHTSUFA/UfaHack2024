@@ -7,7 +7,7 @@ ____
 ## Данный программный продукт создан с помощью фреймворка для Python Socket, CutBoost, CustomTkinter, а также приложение написанное на Kotin для клиента на Android
 
 ### Код реализации сервера 
-``` 
+```python
 import socket
 
 s = socket.socket()
@@ -21,7 +21,7 @@ while True:
     with open('FDJ.jpg', 'wb') as f:
         while True:
             print(1)
-            data = con.recv(12000000)
+            data = con.recv(4096)
             if not data:
                 break
             f.write(data)
@@ -30,7 +30,7 @@ while True:
 ```
 
 ### Код реализации клиента
-```
+```python
 import socket
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
