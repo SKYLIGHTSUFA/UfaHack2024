@@ -8,7 +8,7 @@ ____
 ![f](https://github.com/SKYLIGHTSUFA/UfaHack2024/blob/main/c4715817-515e-4815-aa0d-bfcc75d45388.jfif)
 
 
-## Данный программный продукт создан с помощью фреймворка для Python Socket, CutBoost, CustomTkinter, а также приложение написанное на Kotin для клиента на Android
+## Программный продукт создан с помощью фреймворка для Python Socket, CatBoost, CustomTkinter, а также приложение написанное на Kotin для клиента на Android
 
 + Реализация с CUDA технологиями    
 + Андройд приложение    
