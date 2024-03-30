@@ -48,3 +48,6 @@ while True:
 s.close()
 ```
 Для обучения модели исползовали [CutBoost](https://catboost.ai/)
+
+## Реализация модели
+<img src="blob:https://web.telegram.org/20fd6096-4890-42ca-8858-a5677a3ebf30" alt="Face" width="100%" height="100%">
