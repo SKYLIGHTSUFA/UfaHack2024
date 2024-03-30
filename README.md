@@ -50,4 +50,4 @@ s.close()
 Для обучения модели исползовали [CutBoost](https://catboost.ai/)
 
 ## Реализация модели
-<img src="blob:https://web.telegram.org/20fd6096-4890-42ca-8858-a5677a3ebf30" alt="Face" width="100%" height="100%">
+![f](https://github.com/SKYLIGHTSUFA/UfaHack2024/blob/main/c4715817-515e-4815-aa0d-bfcc75d45388.jfif)
