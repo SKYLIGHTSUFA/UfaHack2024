@@ -17,6 +17,19 @@ ____
 + Возможность работать удаленно    
 + Возможность обработки в реальном времени    
 
+## Установка зависимостей    
+```
+pip install catboost, customtkinter, deepface, socket, opencv-python, opencv-contrib-python, pandas, imutils, mtcnn
+```
+## Quick start    
+
+``` git clone https://github.com/SKYLIGHTSUFA/UfaHack2024.git    
+cd UfaHack2024 
+cd notebooks/apps
+python main.py
+```
+  
+
 ### Код реализации сервера 
 ```python
 import socket
