@@ -4,6 +4,10 @@ Hackaton UfaHack2024 in UFA
 
 ____
 
+## Реализация модели
+![f](https://github.com/SKYLIGHTSUFA/UfaHack2024/blob/main/c4715817-515e-4815-aa0d-bfcc75d45388.jfif)
+
+
 ## Данный программный продукт создан с помощью фреймворка для Python Socket, CutBoost, CustomTkinter, а также приложение написанное на Kotin для клиента на Android
 
 + Реализация с CUDA технологиями    
@@ -56,5 +60,3 @@ s.close()
 ```
 Для обучения модели исползовали [CatBoost](https://catboost.ai/)
 
-## Реализация модели
-![f](https://github.com/SKYLIGHTSUFA/UfaHack2024/blob/main/c4715817-515e-4815-aa0d-bfcc75d45388.jfif)
