@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: DrHo1y/UfaHack2024
+  IMAGE_NAME: drho1y/ufahack2024
 
 jobs:
   build:
