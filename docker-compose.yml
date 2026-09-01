@@ -1,0 +1,18 @@
+services:
+  server:
+    build: .
+    ports:
+      - "12345:12345"
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "12345"
+      MODEL_DIR: "/app/models"
+      DATA_DIR: "/data"
+    volumes:
+      - ./server:/app/server
+      - ./models:/app/models
+      - ./data:/data
+# Notes:
+#   - Place .cbm model files in ./models/ on the host before starting.
+#   - Docker creates missing host directories (./models/, ./data/) automatically
+#     (they will be owned by root on Linux).

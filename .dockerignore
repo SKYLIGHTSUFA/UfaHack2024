@@ -1,0 +1,19 @@
+# Exclude development and unnecessary files from the Docker build context
+.git
+__pycache__
+*.pyc
+*.pyo
+.gitignore
+.dockerignore
+README.md
+MyApplication6.rar
+submissions
+data/
+notebooks/catboost_info/
+notebooks/*.ipynb
+notebooks/FastMTCNN.py
+notebooks/tester.py
+notebooks/saved_dictionary.pkl
+c4715817-515e-4815-aa0d-bfcc75d45388.jfif
+models/
+.env

@@ -2,3 +2,14 @@ deepface
 customtkinter
 torch
 torchvision
+catboost
+mtcnn
+opencv-python
+opencv-contrib-python
+pandas
+numpy
+Pillow
+facenet-pytorch
+imutils
+tqdm
+scikit-learn
