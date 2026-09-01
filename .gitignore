@@ -1,3 +1,8 @@
 .idea
 data
 data — копия
+__pycache__/
+*.pyc
+*.pyo
+.env
+models/
