@@ -50,6 +50,18 @@ UfaHack2024/
 ├── MyApplication6.rar            # Android-клиент (Kotlin)
 ├── .gitignore
 ├── requirements.txt
+├── server/
+│   ├── __init__.py
+│   └── server.py
+├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
+├── .github/
+│   └── workflows/
+│       └── docker-build.yml
+├── .gitea/
+│   └── workflows/
+│       └── docker-build.yml
 └── c4715817-515e-4815-aa0d-bfcc75d45388.jfif
 ```
 
@@ -68,24 +80,17 @@ python main.py
 ```
 
 ### Зависимости
-Файл `requirements.txt` содержит лишь часть зависимостей (deepface, customtkinter, torch, torchvision). Для полной работы дополнительно установите:
-- catboost
-- opencv-python
-- opencv-contrib-python
-- pandas
-- imutils
-- mtcnn
 
-Базовую установку можно выполнить командой:
-```
+Все необходимые зависимости (15 пакетов) перечислены в `requirements.txt`. Установка выполняется одной командой:
+
+```bash
 pip install -r requirements.txt
 ```
-Затем доустановите недостающие пакеты из списка выше.
 
 ## Важные замечания
 - Файлы `.cbm` (catboost_usa.cbm, catboost_ussr.cbm) **не включены** в репозиторий. Их необходимо обучить из блокнота `catboost.ipynb` или получить отдельно.
 - Каталоги `data/` с фотографиями находятся в `.gitignore` и **не приложены** к репозиторию. В коде жёстко прописаны абсолютные пути вида `C://Users//fatik//PycharmProjects//UfaHack2024//data//...` — перед запуском требуется скорректировать пути под ваше окружение.
-- `requirements.txt` неполон; список установки недостающих пакетов приведён выше.
+- `requirements.txt` содержит все зависимости — см. раздел «Зависимости».
 - Серверная часть (`PredictServer.py`) ожидает IP-адрес `192.168.120.240:12345` — измените под свою сеть.
 
 ## Приложение для Android
@@ -93,7 +98,7 @@ pip install -r requirements.txt
 
 ## Docker / локальная разработка
 
-В репозитории добавлена конфигурация для запуска headless-сервера распознавания лиц в Docker-контейнере (без GUI).
+В репозитории добавлена конфигурация для запуска headless-сервера распознавания лиц в Docker-контейнере (без GUI). Серверная часть находится в каталоге `server/` — это Python-скрипт без графического интерфейса, который может работать независимо от десктопного приложения.
 
 ### Быстрый старт
 
@@ -102,6 +107,22 @@ docker compose up --build
 ```
 
 После сборки и запуска сервер будет доступен на порту `12345` (адрес `127.0.0.1:12345`).
+
+### Ручной запуск (без docker compose)
+
+Собрать образ:
+
+```bash
+docker build -t ufahack2024 .
+```
+
+Запустить контейнер:
+
+```bash
+docker run -p 12345:12345 -v ./models:/app/models ufahack2024
+```
+
+Контейнер запускает headless TCP-сервер из `server/server.py`, слушает порт 12345 и требует файлы `.cbm` в каталоге `./models/`. Логи выводятся в stdout. Для выполнения команд необходим установленный Docker CLI.
 
 ### Переменные окружения
 
@@ -116,11 +137,14 @@ docker compose up --build
 
 - Файлы `.cbm` (catboost_usa.cbm и др.) **не включены** в репозиторий. Поместите их в каталог `./models/` на хосте перед запуском контейнера. Без них контейнер запустится, но распознавание будет недоступно (в логах появится предупреждение).
 - Каталоги `./models/` и `./data/` создаются Docker автоматически, если их нет на хосте.
+- Файл `.dockerignore` исключает из контекста сборки ненужные файлы (исходники блокнотов, Android-клиент, `.git` и др.).
 
 ### CI / CD
 
-- **GitHub Actions** — при пуше в ветку `main` автоматически собирает образ и публикует его в `ghcr.io/DrHo1y/UfaHack2024`.
-- **Gitea Actions** — аналогичный workflow для Gitea (требует зарегистрированного runner и секрета `GITEA_TOKEN`).
+В репозитории определены два workflow-файла:
+
+- **GitHub Actions** (`.github/workflows/docker-build.yml`) — при пуше в ветку `main` автоматически собирает образ и публикует его в `ghcr.io/drho1y/ufahack2024` (все символы в нижнем регистре). Аутентификация через `secrets.GITHUB_TOKEN`, теги — `:latest` и `:${{ github.sha }}`.
+- **Gitea Actions** (`.gitea/workflows/docker-build.yml`) — публикует образ в `git.byte-mate.ru/coder/ufahack2024`. Аутентификация: имя пользователя `${{ github.repository_owner }}`, пароль из секрета `GIT_PASSWORD` (не `GITEA_TOKEN`). Требуется зарегистрированный Gitea Actions runner.
 
 ## Благодарности
 Для обучения модели использовали [CatBoost](https://catboost.ai/)
