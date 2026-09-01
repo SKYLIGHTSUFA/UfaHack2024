@@ -1,81 +1,95 @@
 # UfaHack2024
-<img src="https://images.squarespace-cdn.com/content/v1/6201920e5d62b32f53d158bb/1646055024414-55O3Y8GPH2DM30WXAWVM/Screen%2BShot%2B2021-11-18%2Bat%2B1.18.40%2BPM.png" alt="Face" width="10%" height="10%">
-Hackaton UfaHack2024 in UFA
+![](c4715817-515e-4815-aa0d-bfcc75d45388.jfif)
+Хакатон UfaHack2024 в Уфе
 
-____
+---
 
-## Реализация модели
-![f](https://github.com/SKYLIGHTSUFA/UfaHack2024/blob/main/c4715817-515e-4815-aa0d-bfcc75d45388.jfif)
+## Описание проекта
+Проект представляет систему распознавания лиц актёров (США / СССР-Россия) и блогеров с веб-камеры и по загруженным фотографиям. Пайплайн обработки: MTCNN (детекция лица) → DeepFace (Facenet, выделение эмбеддингов) → CatBoost (градиентный бустинг, классификация).
 
+На основе десктопного приложения на CustomTkinter пользователь может запускать распознавание как из файловой папки с фотографиями, так и в реальном времени через веб-камеру. Дополнительно реализован Android-клиент на Kotlin, который отправляет фото на серверную часть по TCP-сокету.
 
-## Программный продукт создан с помощью фреймворка для Python Socket, CatBoost, CustomTkinter, а также приложение написанное на Kotin для клиента на Android
+Система обучена на нескольких категориях: актёры США, актёры СССР-Россия и блогеры. Для каждой категории строится отдельная модель CatBoost, использующая эмбеддинги лиц, извлечённые предобученной сетью Facenet.
 
-+ Реализация с CUDA технологиями    
-+ Андройд приложение    
-+ Классифкатор на основе градиентного бустинга    
-+ Очищенный и подготовленный датасет    
-+ Возможность работать удаленно    
-+ Возможность обработки в реальном времени    
+## Стек технологий
+- Python (основной язык)
+- CustomTkinter (графический интерфейс)
+- DeepFace + Facenet (извлечение эмбеддингов лиц)
+- MTCNN / FastMTCNN (детекция лиц)
+- CatBoost (градиентный бустинг)
+- OpenCV + opencv-contrib-python (обработка изображений и видео)
+- PyTorch + torchvision (фреймворк для нейросетей)
+- CUDA (ускорение на GPU)
+- Kotlin (Android-клиент)
 
-## Gold features  
-+ Алгоритм определения "замыленных" фотографий opencv методами
-+ Очистка датасета от фотографий, где присутствует более 2 человек
-+ Пакетная обработка видео, ускоряющее обнаружениие лица на одном кадре за 5ms
-+ Выделение face embeddings моделью facenet, которые используются для классификации человека алгоритмом градиентного бустинга "catboost"
-+ Обучение нескольких моделей для разных категорий  
-## Установка зависимостей    
+## Структура проекта
 ```
-pip install catboost, customtkinter, deepface, socket, opencv-python, opencv-contrib-python, pandas, imutils, mtcnn
+UfaHack2024/
+├── notebooks/
+│   ├── app/
+│   │   ├── main.py               # Точка входа, CustomTkinter
+│   │   ├── Predict_photo.py      # Распознавание из папки с фото
+│   │   ├── Predict_video.py      # Распознавание с веб-камеры
+│   │   ├── PredictServer.py      # TCP-сервер (192.168.120.240:12345)
+│   │   ├── Start.py              # Стартовое окно
+│   │   ├── FastMtcnn.py          # Ускоренный MTCNN
+│   │   └── FDJ.jpg               # Тестовое изображение
+│   ├── model/
+│   │   ├── saved_dictionary.pkl          # Словарь имён (категория)
+│   │   ├── saved_dictionary_russia.pkl   # Словарь имён (Россия)
+│   │   ├── saved_dictionary_bloggers.pkl # Словарь имён (блогеры)
+│   │   ├── actors_usa_embeddings.pkl     # Эмбеддинги (США)
+│   │   └── actors_ussr_embeddings.pkl    # Эмбеддинги (СССР-Россия)
+│   ├── saved_dictionary.pkl      # Словарь имён (корневой)
+│   ├── EDA.ipynb                 # Разведочный анализ данных
+│   ├── blur_detection.ipynb      # Детекция размытия
+│   ├── catboost.ipynb            # Обучение CatBoost
+│   ├── deepface_notebooks.ipynb  # Работа с DeepFace
+│   ├── FastMTCNN.py              # Вспомогательный модуль
+│   └── tester.py                 # Тестирование
+├── MyApplication6.rar            # Android-клиент (Kotlin)
+├── .gitignore
+├── requirements.txt
+└── c4715817-515e-4815-aa0d-bfcc75d45388.jfif
 ```
-## Quick start    
 
-``` git clone https://github.com/SKYLIGHTSUFA/UfaHack2024.git    
-cd UfaHack2024 
-cd notebooks/apps
+## Установка и запуск
+
+1. Клонируйте репозиторий:
+```
+git clone https://github.com/DrHo1y/UfaHack2024.git
+cd UfaHack2024
+cd notebooks/app
+```
+2. Установите зависимости (см. раздел Зависимости ниже).
+3. Запустите приложение:
+```
 python main.py
 ```
-  
 
-### Код реализации сервера 
-```python
-import socket
+### Зависимости
+Файл `requirements.txt` содержит лишь часть зависимостей (deepface, customtkinter, torch, torchvision). Для полной работы дополнительно установите:
+- catboost
+- opencv-python
+- opencv-contrib-python
+- pandas
+- imutils
+- mtcnn
 
-s = socket.socket()
-host = "192.168.120.244"
-port = 12345
-s.bind((host, port))
-s.listen(5)
-
-while True:
-    con, addr = s.accept()
-    with open('FDJ.jpg', 'wb') as f:
-        while True:
-            print(1)
-            data = con.recv(4096)
-            if not data:
-                break
-            f.write(data)
-    con.close()
-
+Базовую установку можно выполнить командой:
 ```
-
-### Код реализации клиента
-```python
-import socket
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-s.connect(('192.168.120.244', 12345)) # Подключаемся к серверу.
-s.sendall('Hello, Habr!'.encode('utf-8')) # Отправляем фразу.
-data = s.recv(1024) # Получаем данные из сокета.
-print(data.decode())
-while True:
-    data = s.recv(4096)
-    if not data:
-        break
-    print("Received response: " + data.decode())
-
-s.close()
+pip install -r requirements.txt
 ```
-Для обучения модели исползовали [CatBoost](https://catboost.ai/)
+Затем доустановите недостающие пакеты из списка выше.
 
+## Важные замечания
+- Файлы `.cbm` (catboost_usa.cbm, catboost_ussr.cbm) **не включены** в репозиторий. Их необходимо обучить из блокнота `catboost.ipynb` или получить отдельно.
+- Каталоги `data/` с фотографиями находятся в `.gitignore` и **не приложены** к репозиторию. В коде жёстко прописаны абсолютные пути вида `C://Users//fatik//PycharmProjects//UfaHack2024//data//...` — перед запуском требуется скорректировать пути под ваше окружение.
+- `requirements.txt` неполон; список установки недостающих пакетов приведён выше.
+- Серверная часть (`PredictServer.py`) ожидает IP-адрес `192.168.120.240:12345` — измените под свою сеть.
+
+## Приложение для Android
+В корне репозитория находится архив `MyApplication6.rar` — проект Android-приложения на Kotlin. Клиент подключается к серверу (`PredictServer.py`) по TCP-сокету, отправляет фотографию и получает результат распознавания.
+
+## Благодарности
+Для обучения модели использовали [CatBoost](https://catboost.ai/)
