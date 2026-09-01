@@ -20,8 +20,8 @@ jobs:
           context: .
           push: true
           tags: |
-            git.byte-mate.ru/Coder/UfaHack2024:latest
-            git.byte-mate.ru/Coder/UfaHack2024:${{ gitea.sha }}
+            git.byte-mate.ru/coder/ufahack2024:latest
+            git.byte-mate.ru/coder/ufahack2024:${{ gitea.sha }}
 
 # Notes:
 #   - Create the GIT_PASSWORD secret in the Gitea repository settings.
